@@ -49,7 +49,7 @@ const Contact = ({ recipient, setRecipient }) => {
 
     try {
       const response = await axios.post(
-        `http://localhost:5001/api/registerMessage`,
+        `https://messages-app-backend.vercel.app/api/registerMessage`,
         {
           sender: sender,
           recipient: recipient,

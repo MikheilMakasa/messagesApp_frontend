@@ -11,7 +11,7 @@ const MessageList = ({ recipient }) => {
     const fetchMessages = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5001/api/messages/${recipient}`
+          `https://messages-app-backend.vercel.app/api/messages/${recipient}`
         );
 
         setMessages(response.data.result);
