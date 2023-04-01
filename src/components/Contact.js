@@ -20,7 +20,7 @@ const Contact = ({ recipient, setRecipient }) => {
 
         setRecipients(response.data);
       } catch (error) {
-        console.error('Error: ', error.response.data);
+        return;
       }
     };
     fetchRecipients();
