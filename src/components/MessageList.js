@@ -16,7 +16,7 @@ const MessageList = ({ sender }) => {
 
         setMessages(response.data.result);
       } catch (error) {
-        toast.error('Error fetching messages');
+        return;
       }
     };
 
