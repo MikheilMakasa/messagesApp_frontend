@@ -119,3 +119,11 @@ p {
   display: flex;
   justify-content: center;
 }
+
+.title {
+  opacity: 0;
+  transition: 2s;
+}
+.show {
+  opacity: 1;
+}

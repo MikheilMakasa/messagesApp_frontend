@@ -2,28 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import axios from 'axios';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 
-const MessageList = ({ recipient }) => {
+const MessageList = ({ sender }) => {
   const [messages, setMessages] = useState([]);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchMessages = async () => {
       try {
         const response = await axios.get(
-          `https://messages-app-backend.vercel.app/api/messages/${recipient}`
+          `https://messages-app-backend.vercel.app/api/messages/${sender}`
         );
 
         setMessages(response.data.result);
       } catch (error) {
-        setError(error.response.data);
+        toast.error('Error fetching messages');
       }
     };
 
-    if (recipient) {
+    if (sender) {
       fetchMessages();
     }
-  }, [recipient]);
+  }, [sender]);
 
   return (
     <div className='messageList'>

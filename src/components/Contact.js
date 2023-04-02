@@ -3,8 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
-const Contact = ({ recipient, setRecipient }) => {
-  const [sender, setSender] = useState('');
+const Contact = ({ recipient, setRecipient, sender, setSender }) => {
   const [recipients, setRecipients] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [title, setTitle] = useState('');
@@ -17,7 +16,6 @@ const Contact = ({ recipient, setRecipient }) => {
         const response = await axios.get(
           'https://jsonplaceholder.typicode.com/users?'
         );
-
         setRecipients(response.data);
       } catch (error) {
         return;
@@ -30,12 +28,11 @@ const Contact = ({ recipient, setRecipient }) => {
     let matches = [];
     if (text.length > 0) {
       matches = recipients.filter((user) => {
-        return user.email.toLowerCase().includes(text.toLowerCase());
+        return user.username.toLowerCase().includes(text.toLowerCase());
       });
     }
     setRecipient(text);
     setSuggestions(matches);
-    console.log(matches);
   };
 
   const onSuggestHandler = (text) => {
@@ -49,7 +46,7 @@ const Contact = ({ recipient, setRecipient }) => {
 
     try {
       const response = await axios.post(
-        `https://messages-app-backend.vercel.app/api/registerMessage`,
+        'https://messages-app-backend.vercel.app/api/registerMessage',
         {
           sender: sender,
           recipient: recipient,
@@ -59,11 +56,12 @@ const Contact = ({ recipient, setRecipient }) => {
       );
       toast.success('Message sent successfully');
     } catch (error) {
-      console.log(error);
+      toast.error('Failed sending message');
     }
     setSender('');
     setTitle('');
     setMessage('');
+    setRecipient('');
   };
 
   return (
@@ -93,14 +91,9 @@ const Contact = ({ recipient, setRecipient }) => {
         <Form.Label>Recipient</Form.Label>
         <Form.Control
           type='text'
-          placeholder='Enter recipient'
+          placeholder="Enter recipient's name"
           value={recipient}
           onChange={(e) => onChangeHandler(e.target.value)}
-          // onBlur={() => {
-          //   setTimeout(() => {
-          //     setSuggestions([]);
-          //   }, 500);
-          // }}
           required
         />
         {suggestions &&
@@ -108,9 +101,9 @@ const Contact = ({ recipient, setRecipient }) => {
             <div
               className='suggestion'
               key={i}
-              onClick={() => onSuggestHandler(suggestion.email)}
+              onClick={() => onSuggestHandler(suggestion.username)}
             >
-              {suggestion.email}
+              {suggestion.username}
             </div>
           ))}
       </Form.Group>

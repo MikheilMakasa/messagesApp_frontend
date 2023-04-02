@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [recipient, setRecipient] = useState('');
+  const [sender, setSender] = useState('');
   return (
     <div className='lg messenger'>
       <ToastContainer
@@ -16,15 +17,20 @@ function App() {
         closeOnClick
         pauseOnHover={false}
       />
-      <Contact recipient={recipient} setRecipient={setRecipient} />
-      {recipient && (
-        <div>
-          <hr />
-          <h4 className='msg'>Messages of {recipient}</h4>
-          <hr />
-        </div>
-      )}
-      {recipient && <MessageList recipient={recipient} />}
+      <Contact
+        recipient={recipient}
+        setRecipient={setRecipient}
+        sender={sender}
+        setSender={setSender}
+      />
+
+      <div className={`title ${sender && 'show'}`}>
+        <hr />
+        <h4 className='msg'>Messages of {sender}</h4>
+        <hr />
+      </div>
+
+      {sender && <MessageList sender={sender} />}
     </div>
   );
 }
